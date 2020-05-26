@@ -16,6 +16,7 @@ import {
 	nodeAfter,
 	displayedElementBefore, previousSignificantNode,
 	prevValidNode,
+	prevValidElement,
 	rebuildAncestors,
 	validNode,
 	walk,
@@ -76,7 +77,7 @@ class Layout {
 			prevNode = node;
 			node = next.value;
 			done = next.done;
-			
+
 			if (!node) {
 				this.hooks && this.hooks.layout.trigger(wrapper, this);
 
@@ -84,7 +85,7 @@ class Layout {
 				if (imgs.length) {
 					await this.waitForImages(imgs);
 				}
-				
+
 				newBreakToken = this.findBreakToken(wrapper, source, bounds, prevBreakToken);
 
 				if (newBreakToken && newBreakToken.equals(prevBreakToken)) {
@@ -300,7 +301,7 @@ class Layout {
 
 				if (!renderedNode) {
 					// Find closest element with data-ref
-					renderedNode = findElement(prevValidNode(temp), rendered);
+					renderedNode = findElement(prevValidElement(temp), rendered);
 					// Check if temp is the last rendered node at its level.
 					if (!temp.nextSibling) {
 						// We need to ensure that the previous sibling of temp is fully rendered.
@@ -327,7 +328,7 @@ class Layout {
 				renderedNode = findElement(container, rendered);
 
 				if (!renderedNode) {
-					renderedNode = findElement(prevValidNode(container), rendered);
+					renderedNode = findElement(prevValidElement(container), rendered);
 				}
 
 				parent = findElement(renderedNode, source);
@@ -345,7 +346,7 @@ class Layout {
 			renderedNode = findElement(container.parentNode, rendered);
 
 			if (!renderedNode) {
-				renderedNode = findElement(prevValidNode(container.parentNode), rendered);
+				renderedNode = findElement(prevValidElement(container.parentNode), rendered);
 			}
 
 			parent = findElement(renderedNode, source);

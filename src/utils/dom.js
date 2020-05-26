@@ -441,8 +441,32 @@ export function validNode(node) {
 	return false;
 }
 
+export function validElement(node) {
+	if (isElement(node) && node.dataset.ref) {
+		return true;
+	}
+
+	return false;
+}
+
 export function prevValidNode(node) {
 	while (!validNode(node)) {
+		if (node.previousSibling) {
+			node = node.previousSibling;
+		} else {
+			node = node.parentNode;
+		}
+
+		if (!node) {
+			break;
+		}
+	}
+
+	return node;
+}
+
+export function prevValidElement(node) {
+	while (!validElement(node)) {
 		if (node.previousSibling) {
 			node = node.previousSibling;
 		} else {
